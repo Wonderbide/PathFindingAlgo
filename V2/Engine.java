@@ -25,23 +25,14 @@ public class Engine {
         while (cellDeque.size() > 0){
             Cell c = cellDeque.pop();
             maze.lastVisited = c.position;
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
-            System.out.println(this.maze);
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            printMaze();
             if (getUnvisitedNeighbor(c.position.x, c.position.y).size() > 0){
                 onePathBuilder(c.position.x, c.position.y);
             }
         }
     }
-
     public void onePathBuilder(int x, int y){
 
-//        System.out.println(this.maze.toString());
         Cell initialCell = maze.getCell(x,y);
         cellDeque.push(initialCell);
 
@@ -49,37 +40,30 @@ public class Engine {
         List<Cell> unvisitedNeighbour = getUnvisitedNeighbor(x, y);
 
         while (unvisitedNeighbour.size() != 0) {
-            // selectionne un voisin au hasard
             Cell newCell = unvisitedNeighbour.get(randomPicker(unvisitedNeighbour.size()));
-            Position direction = initialCell.position.direction(newCell.position);
-            if (direction.equals(NORTH))
-                newCell.wallBot = false;
-            if (direction.equals(SOUTH))
-                initialCell.wallBot = false;
-            if (direction.equals(WEST))
-                newCell.wallRight = false;
-            if (direction.equals(EST))
-                initialCell.wallRight = false;
-
+            breakWall(initialCell, newCell);
+            cellDeque.push(newCell);
             initialCell = newCell;
-            cellDeque.push(initialCell);
             initialCell.isVisited = true;
             unvisitedNeighbour = getUnvisitedNeighbor(initialCell.position.x, initialCell.position.y);
-
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
-
             maze.lastVisited = new Position(initialCell.position.x,initialCell.position.y);
 
-            System.out.println(this.maze.toString());
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-
+            printMaze();
         }
+    }
+
+    public void breakWall(Cell initialCell, Cell newCell){
+        Position direction = initialCell.position.direction(newCell.position);
+
+        if (direction.equals(NORTH))
+            newCell.wallBot = false;
+        if (direction.equals(SOUTH))
+            initialCell.wallBot = false;
+        if (direction.equals(WEST))
+            newCell.wallRight = false;
+        if (direction.equals(EST))
+            initialCell.wallRight = false;
+
     }
 
     public List<Cell> getUnvisitedNeighbor(int x, int y) {
@@ -97,6 +81,19 @@ public class Engine {
         return unvisitedNeighbour;
     }
 
+
+    public void printMaze(){
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+
+        System.out.println(this.maze);
+
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public static int randomPicker(int range) {
         return (int) (Math.random() * range);
     }

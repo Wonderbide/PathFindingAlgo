@@ -1,3 +1,4 @@
+package V1;
 class Printer{
     public static void print(boolean[][] array) {
         for (boolean[] bs : array) {
