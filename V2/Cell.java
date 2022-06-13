@@ -1,3 +1,4 @@
+package V2;
 class Cell {
     boolean isVisited;
     boolean wallBot = true;

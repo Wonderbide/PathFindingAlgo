@@ -1,5 +1,5 @@
-import java.util.ArrayList;
-import java.util.List;
+package V2;
+
 public class Grid {
     Cell[][] grid;
     Position lastVisited = new Position(0,0);
@@ -33,15 +33,21 @@ public class Grid {
             for (Cell cell : cells) {
                 if (cell.wallRight)
                     if (!cell.position.equals(lastVisited))
-                        output.append("\033[1;37m"+"   │"+"\033[0m");
+                        if(cell.isVisited)
+                            output.append("\033[1;37m"+"   │"+"\033[0m");
+                        else
+                            output.append(" ▒ │");
                     else
-                        output.append("\033[1;43m"+" "+"▒"+" "+"\033[0m"+"\033[1;33m"+"│"+"\033[0m");
+                        output.append("\033[1;43m"+" "+" "+" "+"\033[0m"+"\033[1;33m"+"│"+"\033[0m");
 
                 else
                     if (!cell.position.equals(lastVisited))
-                        output.append("    ");
+                        if(cell.isVisited)
+                            output.append("    ");
+                        else
+                            output.append("  ▒ ");
                     else
-                        output.append("\033[;43m"+" "+"▒"+" "+"\033[0m"+" ");
+                        output.append("\033[;43m"+" "+" "+" "+"\033[0m"+" ");
             }
             output.append("\n");
             output.append("\033[1;37m"+"┼"+"\033[0m");
