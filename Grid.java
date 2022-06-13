@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 public class Grid {
     Cell[][] grid;
+    Position lastVisited = new Position(0,0);
 
     public Grid(int size) {
         this.grid = new Cell[size][size];
@@ -23,28 +24,35 @@ public class Grid {
 
     @Override
     public String toString() {
-        StringBuilder output = new StringBuilder("+");
+        StringBuilder output = new StringBuilder("");
+
+        output.append("\033[1;37m"+"┼───".repeat(grid.length)+"┼"+"\033[37m"+"\n");
 
         for (Cell[] cells : grid) {
-            output.append("---+");
-        }
-
-        output.append("\n");
-        for (Cell[] cells : grid) {
-            output.append("|");
+            output.append("\033[1;37m"+"│"+"\033[0m");
             for (Cell cell : cells) {
                 if (cell.wallRight)
-                    output.append("   |");
+                    if (!cell.position.equals(lastVisited))
+                        output.append("\033[1;37m"+"   │"+"\033[0m");
+                    else
+                        output.append("\033[1;43m"+" "+"▒"+" "+"\033[0m"+"\033[1;33m"+"│"+"\033[0m");
+
                 else
-                    output.append("   ");
+                    if (!cell.position.equals(lastVisited))
+                        output.append("    ");
+                    else
+                        output.append("\033[;43m"+" "+"▒"+" "+"\033[0m"+" ");
             }
             output.append("\n");
-            output.append("+");
+            output.append("\033[1;37m"+"┼"+"\033[0m");
             for (Cell cell : cells) {
                 if (cell.wallBot)
-                    output.append("---+");
+                    output.append("\033[1;37m"+"───┼"+"\033[0m");
+
                 else
-                    output.append("   +");
+                    output.append("\033[1;37m"+"   ┼"+"\033[0m");
+
+
             }
             output.append("\n");
         }
