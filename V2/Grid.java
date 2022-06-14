@@ -34,7 +34,7 @@ public class Grid {
                 if (cell.wallRight)
                     if (!cell.position.equals(lastVisited))
                         if(cell.isVisited)
-                            output.append("\033[1;37m"+"   │"+"\033[0m");
+                            output.append("\033[1;37m"+" "+cell.picture+" │"+"\033[0m");
                         else
                             output.append(" ▒ │");
                     else
@@ -43,11 +43,11 @@ public class Grid {
                 else
                     if (!cell.position.equals(lastVisited))
                         if(cell.isVisited)
-                            output.append("    ");
+                            output.append("\033[1;37m"+" "+cell.picture+"  "+"\033[0m");
                         else
                             output.append("  ▒ ");
                     else
-                        output.append("\033[;43m"+" "+" "+" "+"\033[0m"+" ");
+                        output.append("\033[;43m"+" "+cell.picture+" "+"\033[0m"+" ");
             }
             output.append("\n");
             output.append("\033[1;37m"+"┼"+"\033[0m");
