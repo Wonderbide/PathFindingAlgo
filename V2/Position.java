@@ -8,6 +8,10 @@ class Position {
         this.y = y;
     }
 
+    public int getDistance(Position destination){
+        return (destination.x - this.x) + (destination.y-this.y);
+    }
+
     @Override
     public String toString() {
         return "(" + this.x + ";" + this.y + ")";

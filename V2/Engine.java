@@ -25,7 +25,7 @@ public class Engine {
         while (cellDeque.size() > 0){
             Cell c = cellDeque.pop();
             maze.lastVisited = c.position;
-            printMaze();
+//            printMaze();
             if (getUnvisitedNeighbor(c.position.x, c.position.y).size() > 0){
                 onePathBuilder(c.position.x, c.position.y);
             }
@@ -36,7 +36,7 @@ public class Engine {
         Cell initialCell = maze.getCell(x,y);
         cellDeque.push(initialCell);
 
-        initialCell.isVisited = true;
+        initialCell.setVisited();
         List<Cell> unvisitedNeighbour = getUnvisitedNeighbor(x, y);
 
         while (unvisitedNeighbour.size() != 0) {
@@ -44,11 +44,11 @@ public class Engine {
             breakWall(initialCell, newCell);
             cellDeque.push(newCell);
             initialCell = newCell;
-            initialCell.isVisited = true;
+            initialCell.setVisited();
             unvisitedNeighbour = getUnvisitedNeighbor(initialCell.position.x, initialCell.position.y);
             maze.lastVisited = new Position(initialCell.position.x,initialCell.position.y);
 
-            printMaze();
+//            printMaze();
         }
     }
 
@@ -89,7 +89,7 @@ public class Engine {
         System.out.println(this.maze);
 
         try {
-            Thread.sleep(50);
+            Thread.sleep(20);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
